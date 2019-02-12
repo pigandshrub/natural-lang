@@ -1,0 +1,68 @@
+Last name: Cheung
+First Name: Daphne
+Assignment 1 Discussion.txt
+
+
+3.1 Celebrity potpourri
+=======================
+When the model was tested on the training data, the support vector machine (SVM) gave an accuracy of 48.79%, the naive Bayes algorithm gave an accuracy of 42.73%, and the decision tree algorithm gave an accuracy of 76.41%.
+  
+The cross-validation on the testing data resulted in the support vector machine giving an accuracy of 48.02%, the naive Bayes giving an accuracy of 42.40%, and the decision tree giving an accuracy of 45.92%. 
+
+From these accuracies, it appears that:
+(1) The SVM algorithm’s accuracy is better when tested on the training data than from cross-validation, differing by 0.77%.
+(2) The naive Bayes algorithm’s accuracy on the training data is also slightly better than on the testing data, differing by a smaller percentage of 0.33%.
+(3) The decision tree algorithm tends to overfit to the training data, obtaining significantly higher accuracy when training but then causing much less accuracy with cross-validation (a drop of 34%).
+
+Since we want a classification algorithm that we can use to predict how well the model will do on new never-before-seen data, we want the most predictable algorithm or at least the one whose accuracy on the training data most closely reflects the accuracy of the model on the testing data.  
+
+Therefore, it appears that for distinguishing the twits correctly, the best classification for this algorithm is the naive Bayes, because it has the smallest difference in accuracy between the training data and cross-validation.
+
+
+3.2 Pop stars
+=============
+Using the naive Bayes classifier to classify the specified pop star tweets, the accuracy achieved on the training data was 35.95% whereas the accuracy from cross-validation was 
+35.23.  The difference was 0.72%.  In both accuracies, the classifier performed better in Section 3.1.  
+
+When the training set is used as a test set instead of 10-fold cross-validation, the accuracy achieved on the training data was still 35.95%.  However, the accuracy from using the training set as a test set is also 35.95%.  This shows that if you train and test using the same set, your algorithm will not likely decrease in accuracy. This can be deceiving and misrepresent how well a classifier works because training and testing from the same set does not introduce anything new.  The purpose of testing and training on different data sets is to see how well a classifier can classify something new correctly.  
+
+3.3 News
+========
+The news feeds appear to be easier to distinguish from each other as compared to the pop stars, because the accuracy levels are higher overall for the news feeds.  The training data gave an accuracy of 41.07% and cross-validation gave an accuracy of 40.66%, with a difference in accuracies of 0.41%.  
+
+The following are the precision and recall for each of the news feeds, based on the 10-fold cross-validation confusion table:
+
+CBCNews.twt: Precision = 0.3138, Recall = 0.7153
+cnn.twt: Precision = 0.4628, Recall = 0.2917
+torontostar.twt: Precision = 0.3418, Recall = 0.2637
+reuters.twt: Precision = 0.4139, Recall = 0.2321
+nytimes.twt: Precision = 0.5202, Recall = 0.5783
+theOnion.twt: Precision = 0.5559, Recall = 0.3523
+
+Based on these numbers, the news feed that appears the most distinct from the others is The Onion feed, because the classifier is more precise in classifying this news feed even though it does not pick up all the relevant features.  This suggests that, in general, those few features detected are distinct enough to be classified correctly more often than not.   
+
+The news feed that appears the least distinct from the others is The CBC News feed, because although the classifier appears to pick up the most relevant features for this feed, the resulting precision is lowest, suggesting that a lot of features that apply to CBC may also apply to the other feeds.
+
+
+3.4 Pop stars versus news
+=========================
+The 10-fold cross-validation accuracy in this section is 78.61%, much higher than in the other sections.  Such a comparison is valid because we are applying the same feature set to all the feeds and we have an equal number of pop star feeds and news feeds. We are cautious to note that although comparing these feeds is valid, the conclusions reached from the results can possibly be invalid if we are not careful to examine the suitability of the feature set (or potential additions or deletions of features) that would make for a  more useful comparison. 
+
+Using only the first 500 of each file, the performance drops slightly with a 10-fold cross-validation accuracy of 78.17%.  To find out what would happen if other proportions of the data was used, the 10-fold cross-validation was conducted on the first 600 from each file, and then on the first 400 from each file.  
+
+Using the first 600, the 10-fold cross-validation accuracy was 78.36%, higher than the first 500 but lower than using all the data.  The results were a little surprising for the first 400.  Using the first 400 from each file, the 10-fold cross-validation accuracy was 78.75%, higher than all the other accuracies.
+
+Based on the above results, I think getting more twitter data does not necessarily improve performance.  It appears that, in general, it would be better to try various proportions to find a good balance of data size and accuracy so that neither is compromised too much.
+
+
+3.5 Feature analysis
+====================
+The results of WEKA’s information gain attribute selector show that one feature that is especially useful in all tasks is the Proper Noun feature, which is ranked among the top three attributes for each of the four runs (for each of the previous sections). This is not surprising considering that certain proper nouns are used more frequently when discussing one subject over another.
+
+Future Tense Verbs is ranked among the bottom four attributes for all four runs.  This may be attributed to the general nature of a tweet, which is immediate and usually referring to current events and circumstances.  
+
+Slang is ranked in the middle for all runs except the run for Section 3.3, where it is ranked among the three least useful attributes.  This is, again, not surprising because the feeds in Section 3.3 are news feeds, where slang is rarely used. 
+
+Interestingly, dashes is ranked in the top three attributes for the first two runs (Section 3.1 and 3.2) and in the bottom four attributes for the last two runs (Section 3.3 and Section 3.4). Since Section 3.1 and 3.2 are celebrity and pop star feeds, it is possible that individuals use more dashes to make emphasize ideas in a sentence, and is less cautious of using it in a grammatically correct manner than in news feeds.  
+
+A final observation is that the First Person Pronouns is the second highest ranked attribute (second to number of sentences) for the fourth run (Section 3.4), whereas it is ranked in the middle for the other runs.  This is most likely because pop stars tweet more personal messages that use first person pronouns, and news stations report events in a more impersonal professional manner. 
